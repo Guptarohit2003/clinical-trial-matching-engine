@@ -1,0 +1,13 @@
+# MVP Requirements - Minimal setup for 2-3 day sprint
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+requests==2.31.0
+pandas==2.1.3
+numpy==1.25.2
+spacy==3.7.2
+scikit-learn==1.3.2
+nltk==3.8.1
+fuzzywuzzy==0.18.0
+python-levenshtein==0.21.1
+streamlit==1.28.1
+plotly==5.17.0
