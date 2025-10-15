@@ -32,30 +32,36 @@ try:
     import plotly.express as px
     from plotly.subplots import make_subplots
 except ImportError:
-    print("Installing required packages for Day 3...")
-    import subprocess
-    import sys
+    # print("Installing required packages for Day 3...")
+    # import subprocess
+    # import sys
 
-    subprocess.check_call(
-        [
-            sys.executable,
-            "-m",
-            "pip",
-            "install",
-            "fastapi",
-            "uvicorn[standard]",
-            "streamlit",
-            "plotly",
-            "pydantic",
-        ]
+    # subprocess.check_call(
+    #     [
+    #         sys.executable,
+    #         "-m",
+    #         "pip",
+    #         "install",
+    #         "fastapi",
+    #         "uvicorn[standard]",
+    #         "streamlit",
+    #         "plotly",
+    #         "pydantic",
+    #     ]
+    # )
+    # from fastapi import FastAPI, HTTPException, BackgroundTasks
+    # from fastapi.middleware.cors import CORSMiddleware
+    # from pydantic import BaseModel
+    # import uvicorn
+    # import streamlit as st
+    # import plotly.graph_objects as go
+    # import plotly.express as px
+
+    print("Error: Required packages are not installed.")
+    print(
+        "Please ensure you have a requirements.txt file and run 'pip install -r requirements.txt'"
     )
-    from fastapi import FastAPI, HTTPException, BackgroundTasks
-    from fastapi.middleware.cors import CORSMiddleware
-    from pydantic import BaseModel
-    import uvicorn
-    import streamlit as st
-    import plotly.graph_objects as go
-    import plotly.express as px
+    raise
 
 # Import Day 1 and Day 2 components (with fallback)
 try:

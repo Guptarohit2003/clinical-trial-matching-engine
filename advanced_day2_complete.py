@@ -31,24 +31,29 @@ try:
     from sklearn.feature_extraction.text import TfidfVectorizer
     from sklearn.metrics.pairwise import cosine_similarity
 except ImportError:
-    print("Installing required packages...")
-    import subprocess
-    import sys
+    # print("Installing required packages...")
+    # import subprocess
+    # import sys
 
-    subprocess.check_call(
-        [
-            sys.executable,
-            "-m",
-            "pip",
-            "install",
-            "fuzzywuzzy",
-            "python-levenshtein",
-            "scikit-learn",
-        ]
+    # subprocess.check_call(
+    #     [
+    #         sys.executable,
+    #         "-m",
+    #         "pip",
+    #         "install",
+    #         "fuzzywuzzy",
+    #         "python-levenshtein",
+    #         "scikit-learn",
+    #     ]
+    # )
+    # from fuzzywuzzy import fuzz, process
+    # from sklearn.feature_extraction.text import TfidfVectorizer
+    # from sklearn.metrics.pairwise import cosine_similarity
+    print("Error: Required packages are not installed.")
+    print(
+        "Please ensure you have a requirements.txt file and run 'pip install -r requirements.txt'"
     )
-    from fuzzywuzzy import fuzz, process
-    from sklearn.feature_extraction.text import TfidfVectorizer
-    from sklearn.metrics.pairwise import cosine_similarity
+    raise
 
 
 @dataclass
