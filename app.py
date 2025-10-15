@@ -325,7 +325,14 @@ class ClinicalTrialMatchingSystem:
 
 
 # Initialize the matching system
-matching_system = ClinicalTrialMatchingSystem()
+# matching_system = ClinicalTrialMatchingSystem()
+@st.cache_resource
+def get_matching_system():
+    """Initializes and caches the main matching system to prevent reloading on every run."""
+    print(
+        "🚀 Initializing Clinical Trial Matching System... (This may take a moment on first run)"
+    )
+    return ClinicalTrialMatchingSystem()
 
 
 # FastAPI Endpoints
@@ -346,6 +353,7 @@ async def root():
 
 @app.get("/health", tags=["System"])
 async def health_check():
+    matching_system = get_matching_system()
     return {
         "status": "healthy",
         "timestamp": datetime.now().isoformat(),
@@ -356,6 +364,7 @@ async def health_check():
 
 @app.post("/match", response_model=PatientMatchResponse, tags=["Matching"])
 async def match_patient(request: PatientMatchRequest):
+    matching_system = get_matching_system()
     try:
         if request.fhir_patient_bundle:
             fhir_processed = matching_system.process_fhir_bundle(
@@ -383,11 +392,13 @@ async def match_patient(request: PatientMatchRequest):
 
 @app.get("/stats", tags=["Analytics"])
 async def get_system_stats():
+    matching_system = get_matching_system()
     return matching_system.get_system_statistics()
 
 
 @app.get("/trials", tags=["Trials"])
 async def list_all_trials():
+    matching_system = get_matching_system()
     trials_list = []
     for trial in matching_system.processed_trials:
         trials_list.append(
@@ -411,6 +422,8 @@ def create_streamlit_interface():
 
     st.title("🏥 Clinical Trial Semantic Matching Engine")
     st.markdown("AI-powered system for matching patients to clinical trials")
+
+    matching_system = get_matching_system()
 
     # Sidebar
     with st.sidebar:
@@ -666,7 +679,7 @@ def main():
     """Main execution function"""
     print("🏥 Clinical Trial Semantic Matching Engine - Day 3 Complete System")
     print("=" * 70)
-
+    matching_system = get_matching_system()
     # System validation
     print("\nSystem Status:")
     print(f"  ✅ Day 1/2 Available: {DAY1_DAY2_AVAILABLE}")
@@ -730,9 +743,22 @@ def main():
 if __name__ == "__main__":
     import sys
 
-    if len(sys.argv) > 1 and sys.argv[1] == "--streamlit":
-        create_streamlit_interface()
-    elif len(sys.argv) > 1 and sys.argv[1] == "--api":
+    # if len(sys.argv) > 1 and sys.argv[1] == "--streamlit":
+    #     create_streamlit_interface()
+    # elif len(sys.argv) > 1 and sys.argv[1] == "--api":
+    #     uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
+    # else:
+    #     system = main()
+    # This block is for local execution, not for Streamlit Cloud deployment.
+    # Streamlit Cloud's entry point is to run the script from the top.
+    if len(sys.argv) > 1 and sys.argv[1] == "--api":
+        # To run the API server locally: `python app.py --api`
+        print("🚀 Starting FastAPI server on http://localhost:8000")
+        # Note: The get_matching_system() will be called on the first API request.
         uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
+    elif len(sys.argv) > 1 and sys.argv[1] == "--check":
+        # To run the system check locally: `python app.py --check`
+        main()
     else:
-        system = main()
+        # Default behavior for `python app.py` or `streamlit run app.py`
+        create_streamlit_interface()
